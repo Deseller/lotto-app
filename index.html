@@ -14,14 +14,8 @@
             --primary: #FF6B35;
             --secondary: #F7931E;
             --accent: #FEC601;
-            --dark: #1A1A2E;
-            --light: #FEFEFE;
         }
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-        }
+        html, body { width: 100%; min-height: 100%; }
         body {
             font-family: 'Noto Sans KR', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -32,17 +26,14 @@
             padding: 16px;
         }
         .container {
-            background: var(--light);
+            background: #fff;
             border-radius: 24px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             padding: 28px 20px;
             width: 100%;
             max-width: 480px;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
+        .header { text-align: center; margin-bottom: 24px; }
         .header h1 {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 40px;
@@ -56,17 +47,15 @@
             gap: 8px;
             justify-content: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
         .game-btn {
             background: #f0f0f0;
             border: 3px solid transparent;
             border-radius: 12px;
-            padding: 10px 18px;
+            padding: 10px 24px;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
             font-family: 'Noto Sans KR', sans-serif;
         }
         .game-btn.active {
@@ -135,30 +124,42 @@
         .ball[data-range="3"] { background: linear-gradient(135deg, #FF5733, #E84118); }
         .ball[data-range="4"] { background: linear-gradient(135deg, #A5A5A5, #707070); }
         .ball[data-range="5"] { background: linear-gradient(135deg, #00D26A, #00A854); }
-        .actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 16px;
-        }
-        .action-btn {
-            flex: 1;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 12px 6px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: 'Noto Sans KR', sans-serif;
-        }
         .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: #999;
         }
         .empty-state-icon { font-size: 60px; margin-bottom: 16px; opacity: 0.3; }
-
-        /* TDS 모달 */
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .btn-again {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .btn-thanks {
+            flex: 1;
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        /* TDS 종료 모달 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -173,27 +174,23 @@
         .modal {
             background: white;
             border-radius: 24px 24px 0 0;
-            padding: 24px 20px 40px;
+            padding: 28px 20px 40px;
             width: 100%;
             max-width: 480px;
-        }
-        .modal-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
             text-align: center;
         }
-        .modal-content {
-            font-size: 14px;
-            color: #444;
-            background: #f8f8f8;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-            word-break: break-all;
-            line-height: 1.8;
+        .modal-icon { font-size: 48px; margin-bottom: 12px; }
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
-        .modal-btn {
+        .modal-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        .modal-btn-primary {
             width: 100%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -203,9 +200,10 @@
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
+            margin-bottom: 8px;
             font-family: 'Noto Sans KR', sans-serif;
         }
-        .modal-close {
+        .modal-btn-secondary {
             width: 100%;
             background: #f0f0f0;
             color: #333;
@@ -215,7 +213,6 @@
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 8px;
             font-family: 'Noto Sans KR', sans-serif;
         }
     </style>
@@ -228,7 +225,6 @@
         </div>
         <div class="games-selector">
             <button class="game-btn active" data-games="1">1게임</button>
-            <button class="game-btn" data-games="2">2게임</button>
             <button class="game-btn" data-games="3">3게임</button>
             <button class="game-btn" data-games="5">5게임</button>
         </div>
@@ -240,27 +236,24 @@
             </div>
         </div>
         <div class="actions" id="actions" style="display: none;">
-            <button class="action-btn" id="copyBtn">📋 복사</button>
-            <button class="action-btn" id="shareBtn">📤 공유</button>
-            <button class="action-btn" id="saveBtn">💾 저장</button>
+            <button class="btn-again" id="againBtn">🔄 한 번 더</button>
+            <button class="btn-thanks" id="thanksBtn">😊 고마워</button>
         </div>
     </div>
 
-    <!-- TDS 복사/저장 모달 -->
+    <!-- 종료 모달 -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
-            <div class="modal-title" id="modalTitle"></div>
-            <div class="modal-content" id="modalContent"></div>
-            <button class="modal-btn" id="modalConfirm">확인</button>
-            <button class="modal-close" id="modalClose">닫기</button>
+            <div class="modal-icon">🍀</div>
+            <div class="modal-title">행운을 빌어요!</div>
+            <div class="modal-desc">오늘도 좋은 결과가 있기를 바랍니다 😊</div>
+            <button class="modal-btn-primary" id="modalAgain">🔄 한 번 더 해볼게요</button>
+            <button class="modal-btn-secondary" id="modalClose">앱 종료</button>
         </div>
     </div>
 
     <script>
-        // SDK 초기화
-        if (window.toss) {
-            window.toss.init();
-        }
+        if (window.toss) window.toss.init();
 
         let selectedGames = 1;
         let currentNumbers = [];
@@ -290,30 +283,7 @@
             return '5';
         }
 
-        function showModal(title, content, onConfirm) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalContent').innerHTML = content;
-            document.getElementById('modalOverlay').classList.add('show');
-            document.getElementById('modalConfirm').onclick = () => {
-                hideModal();
-                if (onConfirm) onConfirm();
-            };
-            document.getElementById('modalClose').onclick = hideModal;
-        }
-
-        function hideModal() {
-            document.getElementById('modalOverlay').classList.remove('show');
-        }
-
-        function getNumbersText() {
-            let text = '';
-            currentNumbers.forEach((numbers, idx) => {
-                text += `${String.fromCharCode(65 + idx)}게임: ${numbers.join(', ')}\n`;
-            });
-            return text;
-        }
-
-        document.getElementById('generateBtn').addEventListener('click', () => {
+        function generateNumbers() {
             currentNumbers = [];
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = '';
@@ -333,35 +303,41 @@
                 resultsDiv.appendChild(gameSet);
             }
             document.getElementById('actions').style.display = 'flex';
+        }
+
+        document.getElementById('generateBtn').addEventListener('click', generateNumbers);
+
+        document.getElementById('againBtn').addEventListener('click', () => {
+            document.getElementById('results').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🎱</div>
+                    <p>위 버튼을 눌러 행운의 번호를 생성해보세요!</p>
+                </div>
+            `;
+            document.getElementById('actions').style.display = 'none';
         });
 
-        document.getElementById('copyBtn').addEventListener('click', () => {
-            const text = getNumbersText();
-            showModal('번호 복사', text.replace(/\n/g, '<br>'), () => {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(text);
-                }
-            });
+        document.getElementById('thanksBtn').addEventListener('click', () => {
+            document.getElementById('modalOverlay').classList.add('show');
         });
 
-        document.getElementById('shareBtn').addEventListener('click', () => {
-            const text = '🍀 행운의 로또 번호 🍀\n\n' + getNumbersText();
-            if (navigator.share) {
-                navigator.share({ title: '행운의 로또 번호', text });
+        document.getElementById('modalAgain').addEventListener('click', () => {
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.getElementById('results').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🎱</div>
+                    <p>위 버튼을 눌러 행운의 번호를 생성해보세요!</p>
+                </div>
+            `;
+            document.getElementById('actions').style.display = 'none';
+        });
+
+        document.getElementById('modalClose').addEventListener('click', () => {
+            if (window.toss && window.toss.close) {
+                window.toss.close();
             } else {
-                showModal('번호 공유', text.replace(/\n/g, '<br>'), null);
+                document.getElementById('modalOverlay').classList.remove('show');
             }
-        });
-
-        document.getElementById('saveBtn').addEventListener('click', () => {
-            const text = getNumbersText();
-            showModal('번호 저장', text.replace(/\n/g, '<br>'), () => {
-                try {
-                    const saved = JSON.parse(localStorage.getItem('lottoHistory') || '[]');
-                    saved.push({ date: new Date().toLocaleString('ko-KR'), numbers: currentNumbers });
-                    localStorage.setItem('lottoHistory', JSON.stringify(saved));
-                } catch(e) {}
-            });
         });
     </script>
 </body>
