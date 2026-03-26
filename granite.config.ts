@@ -12,7 +12,7 @@ export default defineConfig({
     port: 443,
     commands: {
       dev: "npx serve .",
-      build: "echo done",
+      build: "vite build",
     },
   },
   webViewProps: {
