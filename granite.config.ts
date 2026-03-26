@@ -15,4 +15,7 @@ export default defineConfig({
       build: "echo done",
     },
   },
+  webViewProps: {
+    type: "partner",
+  },
 });
