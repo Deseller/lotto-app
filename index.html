@@ -332,13 +332,17 @@
             document.getElementById('actions').style.display = 'none';
         });
 
-        document.getElementById('modalClose').addEventListener('click', () => {
-            if (window.toss && window.toss.close) {
-                window.toss.close();
-            } else {
-                document.getElementById('modalOverlay').classList.remove('show');
-            }
-        });
+       document.getElementById('modalClose').addEventListener('click', () => {
+    if (window.toss && window.toss.exit) {
+        window.toss.exit();
+    } else if (window.toss && window.toss.close) {
+        window.toss.close();
+    } else if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.close();
+    }
+});
     </script>
 </body>
 </html>
