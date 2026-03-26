@@ -1,7 +1,7 @@
 import { defineConfig } from "@apps-in-toss/web-framework/config";
 
 export default defineConfig({
-  appName: "lotto-app",
+  appName: "lucky645",
   brand: {
     displayName: "행운의 로또",
     primaryColor: "#FF6B35",
